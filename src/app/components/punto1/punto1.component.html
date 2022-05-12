@@ -1,0 +1,20 @@
+<div>
+    <div class="row text-center my-5 mx-0 px-0">
+        <h1>Slider</h1>
+        <div class="col-xl-5 col-lg-5 col-md-7 bg-dark pt-5 mx-auto mb-5">
+            <div class="card bg-dark text-white">
+                <img src="assets/{{noticia.img}}" class="card-img" alt="...">
+                <div class="card-img-overlay bg-opacity">
+                    <h5 class="card-title">{{noticia.titulo}}</h5>
+                    <p class="card-text">{{noticia.noticia}}</p>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center my-2">
+                <button (click)="anterior()" class="btn btn-outline-light me-md-2" type="button">Anterior</button>
+                <button (click)="siguiente()" class="btn btn-outline-light" type="button">Siguiente</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

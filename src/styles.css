@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+.bg-opacity {
+    background-color: rgba(41, 40, 40, 0.658);
+}
+
+.bg-body {
+    background-image: url(../src/assets/paven.png);
+    height: 100%;
+}
+
+.bg-image-game {
+    background-image: url(../src/assets/fondo.png);
+    min-height: 46rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.text-white-opacity {
+    color: rgba(255, 255, 255, 0.753);
+}

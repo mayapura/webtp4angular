@@ -1,0 +1,27 @@
+<div class="row text-center px-0 mx-0 bg-image-game py-lg-3 py-md-3">
+    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 row mx-auto my-3 p-4 bg-opacity">
+        <h1 class="text-white-opacity pb-4">El ahorcado</h1>
+        <div class="col-5">
+            <div class="text-center pt-0 pb-2 px-5">
+                <p class="text-white-opacity fs-1 fw-4 text-danger">{{mensaje}}</p>
+                <img src="assets/{{imagen}}" class="img-fluid rounded tope-height" alt="...">
+            </div>
+            <br>
+            <p class="text-white-opacity fs-1 fw-4">Oportunidades = {{oportunidades}}</p>
+            <p class="text-white-opacity fs-1 fw-4">Fallos = {{errores}}</p>
+        </div>
+        <div class="col-7">
+            <div class="col-12 text-center py-2">
+                <p class="text-white-opacity fs-1 fw-4">{{palabraOculta}}</p>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-dark my-4 d-grid gap-2 d-md-block p-2 mx-auto ">
+                <div *ngFor="let letra of letras" class="d-inline mx-auto">
+                    <button (click)="compararLetras(letra)" type="button" class="btn btn-outline-light p-3 m-2" [disabled]="estadobtn">{{letra}}</button>
+                </div>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button (click)="iniciar()" class="btn btn-primary" type="button">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+</div>
