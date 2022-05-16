@@ -5,52 +5,76 @@ import { Pasaje } from '../models/pasaje';
   providedIn: 'root'
 })
 export class PasajeService {
-  ventas:Array<Pasaje>;
+  pasajes:Array<any>;
 
   constructor() { 
-    this.ventas = new Array<Pasaje>();
+    this.pasajes = new Array<Pasaje>();
+      this.pasajes = [
+      {
+        idPasajero:1,
+        dniPasajero: 35896699,
+        precio: 123,
+        categoriaPasajero: "a",
+        fechaCompra: "2014-01-01T23:28:56.782Z"
+      },
+      {
+        idPasajero:2,
+        dniPasajero: 25765429,
+        precio: 234,
+        categoriaPasajero: "m",
+        fechaCompra: "2015-03-01T23:28:56.782Z"
+      },
+      {
+        idPasajero:3,
+        dniPasajero: 6987482,
+        precio: 413,
+        categoriaPasajero: "j",
+        fechaCompra: "2016-05-01T23:28:56.782Z"
+      }
+    ]
   }
 
-  listarVentas(){
-    return this.ventas;
+  getPasajes(){
+    return this.pasajes;
   }
 
-  saveVenta(venta:Pasaje){
-    venta.idPasajero = this.getDisponible();
-    this.ventas.push(venta);
+  addPasaje(pasaje:Pasaje){
+    pasaje.idPasajero = this.getDisponible();
+    this.pasajes.push(pasaje);
   }
 
 
   getDisponible(){
     var maxid:number;
     maxid = 0;
-    for(var i=0;i<this.ventas.length;i++){
-      if(maxid<this.ventas[i].idPasajero){
-        maxid =this.ventas[i].idPasajero;
+    for(var i=0;i<this.pasajes.length;i++){
+      if(maxid<this.pasajes[i].idPasajero){
+        maxid =this.pasajes[i].idPasajero;
       }
     }
     return (maxid +1);
   }
 
-  getVenta(id:number):Pasaje{
-    let venta:Pasaje=new Pasaje();
-    let indexVenta:number=this.ventas.findIndex(vta => (vta.idPasajero == id));
-    venta=this.ventas[indexVenta];
-    return venta;
+  getPasaje(id:number):Pasaje{
+    let pasaje:Pasaje=new Pasaje();
+    let indexPasaje:number=this.pasajes.findIndex(pje => (pje.idPasajero == id));
+    pasaje=this.pasajes[indexPasaje];
+    return pasaje;
   }
 
-  updateVenta(venta: Pasaje):void{
-    let indexVenta:number = venta.idPasajero;
-    this.ventas[indexVenta] = venta;
+  updatePasaje(pasaje: Pasaje):void{
+    let indexPasaje:number = pasaje.idPasajero;
+    this.pasajes[indexPasaje-1] = pasaje;
   }
 
-  deleteVenta(venta:Pasaje):void{
-    
-
+  deletePasaje(pasaje:Pasaje):void{
+    for(var i=0; i < this.pasajes.length; i++){
+       console.log(this.pasajes[i]);
+      if(this.pasajes[i].idPasajero == pasaje.idPasajero)
+      {  
+        this.pasajes.splice(i,1);
+      }
+    }
   }
   
-
-
-
-
 }

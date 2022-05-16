@@ -9,6 +9,8 @@ import { Punto1Component } from './components/punto1/punto1.component';
 import { Punto2Component } from './components/punto2/punto2.component';
 import { Punto3Component } from './components/punto3/punto3.component';
 import { FormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
+import { Punto3FormComponent } from './components/punto3-form/punto3-form.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     Punto1Component,
     Punto2Component,
-    Punto3Component
+    Punto3Component,
+    Punto3FormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

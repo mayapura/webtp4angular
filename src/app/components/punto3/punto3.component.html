@@ -1,41 +1,12 @@
 <div class="row">
-    <div class="col-6 mx-auto my-5">
-        <p class="fs-2 text-center">Ventas de pasajes</p>
-        <div class="card">
-            <h5 class="card-header">Formulario</h5>
-            <div class="card-body">
-                <form #formregistro="ngForm">
-                    <div class="mb-3">
-                        <label for="dni" class="form-label">DNI</label>
-                        <input type="text" name="dni" class="form-control" id="dni" aria-describedby="dni" placeholder="ingrese DNI" [(ngModel)]="venta.dniPasajero">
-                    </div>
-                    <div class="mb-3">
-                        <label for="precio" class="form-label">Precio</label>
-                        <input type="number" name="dni" class="form-control" id="precio" [(ngModel)]="venta.precio">
-                    </div>
-                    <div class="mb-3">
-                        <label for="categoria" class="form-label">Categoría</label>
-                        <select name="categoria" class="form-select" aria-label="Default select example" [(ngModel)]="venta.categoriaPasajero" (change)="calcularDescuento()">
-                            <option value="s" selected>Seleccionar una categoria</option>
-                            <option value="m">Menor</option>
-                            <option value="a">Adulto</option>
-                            <option value="j">Jubilado</option>
-                          </select>
-                    </div>
-                    <div class="" *ngIf="mostrar">
-                        <div class="alert-success my-3">Descuento: {{precioDescuento}}</div>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary mx-3" (click)="saveVenta()">Enviar</button>
-                        <button type="submit" class="btn btn-primary mx-3" (click)="limpiarVentas()">Limpiar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="bg-success">
+    <div class="col-8 mx-auto my-5">
+        <p class="fs-1 text-center fw-bold">Ventas de pasajes</p>
+        <button type="button" class="btn btn-primary my-3" (click)="agregarPasaje()">Nuevo Pasaje</button>
+        <!--         <div class="bg-success">
             <label>Precio Final:</label> {{precioActual}}
-        </div>
-        <table class="table bg-secondary text-center">
+        </div> -->
+        <table class="table text-center bg-white">
+            <!--  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -48,16 +19,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let v of ventas">
-                    <th scope="row">{{v.idPasajero}}</th>
-                    <td>{{v.dniPasajero}}</td>
-                    <td>{{v.precio}}</td>
-                    <td>{{v.categoriaPasajero}}</td>
-                    <td>{{v.fechaCompra | date: 'dd/MM/yyyy'}}</td>
-                    <!--                     <button type="submit" class="btn btn-warning" (click)="editVenta(v.idPasajero)">Editar</button>
-                    <button type="submit" class="btn btn-danger mx-3" (click)="deleteVenta(v.idPasajero)">Eliminar</button> -->
+                <tr *ngFor="let p of pasajes">
+                    <th scope="row">{{p.idPasajero}}</th>
+                    <td>{{p.dniPasajero}}</td>
+                    <td>{{p.precio}}</td>
+                    <td>{{p.categoriaPasajero}}</td>
+                    <td>{{p.fechaCompra | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" (click)="editarPasaje(p)">Editar</button>
+                        <button type="button" class="btn btn-danger mx-3" (click)="borrarPasaje(p)">Eliminar</button>
+                    </td>
                 </tr>
             </tbody>
+            <tfoot></tfoot>
         </table>
     </div>
 </div>

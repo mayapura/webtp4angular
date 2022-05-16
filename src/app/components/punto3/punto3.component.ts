@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Subject } from 'rxjs';
 import { Pasaje } from '../../models/pasaje';
 import { PasajeService } from '../../services/pasaje.service';
 
@@ -7,79 +10,106 @@ import { PasajeService } from '../../services/pasaje.service';
   templateUrl: './punto3.component.html',
   styleUrls: ['./punto3.component.css']
 })
-export class Punto3Component implements OnInit {
-  venta:Pasaje = new Pasaje;
-  ventas:Array<Pasaje>;
-  precioActual:number = 0;
-  precioDescuento:number = 0;
-  mostrar:boolean = false;
-  menor:number = 0;
-  adulto: number =0;
-  jubilado:number =0;
 
-  constructor(private pasajeservice:PasajeService) {
-    this.venta = new Pasaje();
-    this.ventas =new Array<Pasaje>();
-    this.listarVentas();
+export class Punto3Component implements OnDestroy, OnInit {
+  pasaje:Pasaje = new Pasaje;
+  pasajes:Array<Pasaje>;
+
+
+  /* Datatable */
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement!:DataTableDirective;
+  dtOptions: DataTables.Settings= {};
+  dtTrigger: Subject<any> = new Subject<any>();
+  pasajs: Array<any> =[];
+
+
+
+
+  constructor(private pasajeservice:PasajeService, private router: Router) {
+    /* this.pasajs = new Array<Pasaje>(); */
+    this.pasajes = this.cargarPasajes();
    }
 
    ngOnInit(): void {
+       /* Datatable */
+     this.dtOptions = {
+       pagingType: 'full_numbers',
+       pageLength: 2,
+     };
+     this.precargarPasajes();
+    }
+
+  /* Datatable */
+
+  precargarPasajes(){
+    /* this.pasajs = new Array<any>(); 
+    this.pasajs = [
+      {
+        idPasajero:1,
+        dniPasajero: 35896699,
+        precio: 123,
+        categoriaPasajero: "a",
+        fechaCompra: "2014-01-01T23:28:56.782Z"
+      },
+      {
+        idPasajero:2,
+        dniPasajero: 25765429,
+        precio: 234,
+        categoriaPasajero: "m",
+        fechaCompra: "2015-03-01T23:28:56.782Z"
+      },
+      {
+        idPasajero:3,
+        dniPasajero: 6987482,
+        precio: 413,
+        categoriaPasajero: "j",
+        fechaCompra: "2016-05-01T23:28:56.782Z"
+      }
+    ];
+
+    this.rerender();*/
   }
 
-  /* Metodo que guarda ventas */
-  saveVenta(){
-    this.venta.fechaCompra=new Date();
-    this.venta.precio=this.precioActual;
-    this.pasajeservice.saveVenta(this.venta);
-    this.venta=new Pasaje();
-    this.mostrar=false;
-    this.precioActual=0;
-    this.precioDescuento=0;
+
+  ngAfterViewInit():void{
+    this.dtTrigger.next(undefined);
   }
 
-  /* Metodo que lista ventas */
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender():void{
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) =>{
+      dtInstance.destroy();
+      this.dtTrigger.next(undefined);
+    });
+  }
+
+
+
   
-   listarVentas(){
-     this.ventas=this.pasajeservice.listarVentas();
+   cargarPasajes():Array<Pasaje>{
+     let pasajesTemp : Array<Pasaje> = new Array<Pasaje>();
+     pasajesTemp = this.pasajeservice.getPasajes();
+     return pasajesTemp;
    }
 
-/* Metodo que limpia ventas */
-   limpiarVentas(){
-     this.venta=new Pasaje();
+   agregarPasaje(){
+    this.router.navigate(['punto3-form', 0]);
    }
 
-   /* Metodo que calcula el descuento */
-
-   calcularDescuento(){
-     if(this.venta.categoriaPasajero=="m"){
-       this.precioDescuento=(this.venta.precio*25)/100;
-       this.precioActual=this.venta.precio-this.precioDescuento;
-       this.mostrar=true;
-       this.menor = this.menor+1;
-     }
-     
-     if(this.venta.categoriaPasajero=="j"){
-       this.precioDescuento=(this.venta.precio*50)/100;
-       this.precioActual=this.venta.precio-this.precioDescuento;
-       this.mostrar=true;
-       this.jubilado =this.jubilado+1;
-     }
-
-     if(this.venta.categoriaPasajero=="a"){
-       this.mostrar=false;
-       this.adulto = this.adulto+1;
-     }
-
+   editarPasaje(pasaje: Pasaje):void{
+     this.router.navigate(['punto3-form', pasaje.idPasajero]);
    }
 
-
-   editVenta(pasaje: Pasaje): void{
-/*       this.router.navigate(["....",pasaje.idPasajero]) */
-   } 
-
-   deleteVenta(pasaje: Pasaje):void{
-      this.pasajeservice.deleteVenta(pasaje);
-   } 
-
+   borrarPasaje(pasaje: Pasaje):void{
+     console.log(pasaje);
+     this.pasajeservice.deletePasaje(pasaje);
+     pasaje= new Pasaje();
+     this.pasajes = this.cargarPasajes();
+   }
 
 }
+
